@@ -44,17 +44,29 @@ exports.is_over = function(idGame,cb){
 };
 
 exports.is_draw = function(idGame,cb){
-    cb({});
+    var game = DB.games[idGame];
+    cb({
+        draw: game.in_draw()
+    });
 };
 
 exports.is_checkmate = function(idGame,cb){
-    cb({});
+    var game = DB.games[idGame];
+    cb({
+        checkmate: game.in_checkmate()
+    });
 };
 
 exports.is_check = function(idGame,cb){
-    cb({});
+    var game = DB.games[idGame];
+    cb({
+        check: game.in_check()
+    });
 };
 
 exports.is_stalemate = function(idGame,cb){
-    cb({});
+    var game = DB.games[idGame];
+    cb({
+        stalemate: game.in_stalemate()
+    });
 };
