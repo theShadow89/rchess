@@ -5,21 +5,40 @@ var Chess = require('chess.js').Chess;
 
 
 exports.create = function(cb){
-    cb({});
+    var gameId = uuid.v4();
+    DB.games[gameId] = new Chess();
+
+    var gameData = {
+        id: gameId
+    };
+
+    cb(gameData);
 };
 
 exports.move = function(idGame,move,cb){
-    cb({});
+    var valid = false;
+
+    var game = DB.games[idGame];
+
+    if(game.move(move)!= null) valid = true;
+
+    cb({
+        valid: valid
+    });
 };
 
 exports.delete = function(idGame,cb){
-    cb({});
+    delete DB.games[idGame];
+    cb({id: idGame});
 };
 
 exports.list = function(cb){
-    cb([]);
+    cb({games: Object.keys(DB.games)});
 };
 
 exports.is_over = function(idGame,cb){
-    cb({});
+    var game = DB.games[idGame];
+    cb({
+        game_over: game.game_over()
+    });
 };
