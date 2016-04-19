@@ -42,3 +42,19 @@ exports.is_over = function(idGame,cb){
         game_over: game.game_over()
     });
 };
+
+exports.is_draw = function(idGame,cb){
+    cb({});
+};
+
+exports.is_checkmate = function(idGame,cb){
+    cb({});
+};
+
+exports.is_check = function(idGame,cb){
+    cb({});
+};
+
+exports.is_stalemate = function(idGame,cb){
+    cb({});
+};

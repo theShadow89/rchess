@@ -44,6 +44,42 @@ describe('Model Game Tests', function() {
         });
     });
 
+    it('game is in checkmate state', function(done) {
+        var idGame = uuid.v4();
+        DB.games[idGame] = new Chess('rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3');
+        Game.is_checkmate(idGame,function(data){
+            expect(data.checkmate).to.equal(true);
+            done();
+        });
+    });
+
+    it('game is in check state', function(done) {
+        var idGame = uuid.v4();
+        DB.games[idGame] = new Chess('rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3');
+        Game.is_check(idGame,function(data){
+            expect(data.check).to.equal(true);
+            done();
+        });
+    });
+
+    it('game is in draw state', function(done) {
+        var idGame = uuid.v4();
+        DB.games[idGame] = new Chess('4k3/4P3/4K3/8/8/8/8/8 b - - 0 78');
+        Game.is_draw(idGame,function(data){
+            expect(data.draw).to.equal(true);
+            done();
+        });
+    });
+
+    it('game is in stalemate state', function(done) {
+        var idGame = uuid.v4();
+        DB.games[idGame] = new Chess('4k3/4P3/4K3/8/8/8/8/8 b - - 0 78');
+        Game.is_stalemate(idGame,function(data){
+            expect(data.stalemate).to.equal(true);
+            done();
+        });
+    });
+
     it('delete a game', function(done) {
         var idGame = uuid.v4();
         DB.games[idGame] = new Chess();
