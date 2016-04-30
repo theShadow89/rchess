@@ -1,0 +1,16 @@
+{
+  "name": "RChess",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "dependencies": {
+    "node-uuid":"1.4.7",
+    "chess.js":"0.9.4"
+  },
+  "devDependencies": {
+    "mocha": "~2.1.0",
+    "chai": "~1.10.0"
+  }
+}
