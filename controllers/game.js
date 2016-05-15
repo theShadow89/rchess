@@ -16,7 +16,7 @@ exports.status = function(req,res){
 
     statuses =[];
 
-    id = req.id;
+    id = req.params.id;
 
     GameModel.is_draw(id, function (data) {
         if(data.draw) statuses.push("draw");
