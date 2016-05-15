@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "mocha test/*"
+    "test": "mocha test/*",
+    "start": "node ./bin/server"
   },
   "dependencies": {
     "node-uuid": "1.4.7",
     "chess.js": "0.9.4",
     "body-parser": "^1.15.1",
     "express": "4.13.4",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "jade": "~1.11.0"
   },
   "devDependencies": {
     "lodash":"^3.7.0",
