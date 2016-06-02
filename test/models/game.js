@@ -1,5 +1,6 @@
 var expect = require('chai').expect
-    , DB = require('../../db');
+    , DB = require('../../db')
+    , fixtures = require('../fixtures/model-games');
 
 var uuid = require('node-uuid');
 
