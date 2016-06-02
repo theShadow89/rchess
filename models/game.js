@@ -4,6 +4,10 @@ var uuid = require('node-uuid');
 var Chess = require('chess.js').Chess;
 
 
+exports.findById = function(gameId,cb){
+    cb({},null);
+};
+
 exports.create = function(cb){
     var gameId = uuid.v4();
     DB.games[gameId] = new Chess();

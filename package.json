@@ -14,8 +14,7 @@
     "express": "4.13.4",
     "morgan": "^1.7.0",
     "mongodb": "^2.1.21",
-    "jade": "~1.11.0",
-    "tingodb": "latest"
+    "jade": "~1.11.0"
   },
   "devDependencies": {
     "lodash":"^3.7.0",

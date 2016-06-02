@@ -1,6 +1,5 @@
 var MongoClient = require('mongodb').MongoClient
     , async = require('async');
-var TingoDb = require("tingodb")();
 
 var state = {
     db: null,
@@ -9,7 +8,8 @@ var state = {
 
 // In the real world it will be better if the production uri comes
 // from an environment variable, instead of being hard coded.
-var PRODUCTION_URI = 'mongodb://127.0.0.1:27017/production';
+var PRODUCTION_URI = 'mongodb://127.0.0.1:27017/production'
+    , TEST_URI = 'mongodb://127.0.0.1:27017/test';
 
 exports.MODE_TEST = 'mode_test';
 exports.MODE_PRODUCTION = 'mode_production';
@@ -17,20 +17,14 @@ exports.MODE_PRODUCTION = 'mode_production';
 exports.connect = function(mode, done) {
     if (state.db) return done();
 
-    if(exports.MODE_TEST){
-        state.db = new TingoDb.Db('tmp/', {});
+    var uri = mode === exports.MODE_TEST ? TEST_URI : PRODUCTION_URI
+
+    MongoClient.connect(uri, function(err, db) {
+        if (err) return done(err);
+        state.db = db;
         state.mode = mode;
         done()
-    }else{
-        MongoClient.connect(PRODUCTION_URI, function(err, db) {
-            if (err) return done(err);
-            state.db = db;
-            state.mode = mode;
-            done()
-        })
-    }
-
-
+    })
 };
 
 exports.getDB = function() {
@@ -38,7 +32,7 @@ exports.getDB = function() {
 };
 
 exports.drop = function(done) {
-    if (!state.db) return done()
+    if (!state.db) return done();
     // This is faster then dropping the database
     state.db.collections(function(err, collections) {
         async.each(collections, function(collection, cb) {
