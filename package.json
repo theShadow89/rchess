@@ -7,12 +7,15 @@
     "start": "node ./bin/server"
   },
   "dependencies": {
+    "async": "latest",
     "node-uuid": "1.4.7",
     "chess.js": "0.9.4",
     "body-parser": "^1.15.1",
     "express": "4.13.4",
     "morgan": "^1.7.0",
-    "jade": "~1.11.0"
+    "mongodb": "^2.1.21",
+    "jade": "~1.11.0",
+    "tingodb": "latest"
   },
   "devDependencies": {
     "lodash":"^3.7.0",
