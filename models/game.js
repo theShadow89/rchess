@@ -3,9 +3,22 @@ var uuid = require('node-uuid');
 
 var Chess = require('chess.js').Chess;
 
+var COLLECTION = 'games';
 
-exports.findById = function(gameId,cb){
-    cb({},null);
+exports.findById = function (gameId, cb) {
+    var db = DB.getDB();
+    db.collection(COLLECTION).find({"game_id": gameId}, {limit: 1}).next(function (err, doc) {
+        if (err) {
+            cb(null, "game not found")
+        }
+
+        if (doc) {
+            cb(doc, null)
+        }else{
+            cb(null, "game not found")
+        }
+        
+    });
 };
 
 exports.create = function(cb){
