@@ -97,8 +97,21 @@ exports.delete = function (idGame, cb) {
 
 };
 
-exports.list = function(cb){
-    cb({games: Object.keys(DB.games)});
+exports.list = function (cb) {
+    var db = DB.getDB();
+
+    db.collection(COLLECTION).find({}, {"game_id": true}).toArray(function (err, data) {
+        if (err) {
+            console.log(err);
+        }
+
+        var games = data.map(function (obj) {
+            return obj.game_id
+        });
+
+        cb(games);
+    });
+
 };
 
 exports.is_over = function(idGame,cb){
