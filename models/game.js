@@ -73,9 +73,28 @@ exports.move = function (idGame, move, cb) {
     });
 };
 
-exports.delete = function(idGame,cb){
-    delete DB.games[idGame];
-    cb({id: idGame});
+exports.delete = function (idGame, cb) {
+    var db = DB.getDB();
+
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        db.collection(COLLECTION).deleteOne({"game_id": game.game_id}, function (err, data) {
+            //if error occur on delete game return no data
+            if (err) {
+                cb({});
+            }
+
+            //return id of deleted game
+            cb({id: game.game_id});
+
+        });
+    });
+
 };
 
 exports.list = function(cb){
