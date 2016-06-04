@@ -21,15 +21,17 @@ exports.findById = function (gameId, cb) {
     });
 };
 
-exports.create = function(cb){
+exports.create = function (cb) {
     var gameId = uuid.v4();
-    DB.games[gameId] = new Chess();
+    var db = DB.getDB();
+    var chess = new Chess();
 
-    var gameData = {
-        id: gameId
-    };
-
-    cb(gameData);
+    db.collection(COLLECTION).insertOne({"game_id": gameId, "fen": chess.fen()}, function (err, res) {
+        var gameData = {
+            id: gameId
+        };
+        cb(gameData);
+    });
 };
 
 exports.move = function(idGame,move,cb){
