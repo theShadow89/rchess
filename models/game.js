@@ -34,15 +34,42 @@ exports.create = function (cb) {
     });
 };
 
-exports.move = function(idGame,move,cb){
-    var valid = false;
+exports.move = function (idGame, move, cb) {
+    var db = DB.getDB();
 
-    var game = DB.games[idGame];
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur move is invalid
+        if (err) {
+            cb({
+                valid: false
+            });
+        }
 
-    if(game.move(move)!= null) valid = true;
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
 
-    cb({
-        valid: valid
+        //make move and update game fen status if it is  valid
+        var chessMove = chess.move(move);
+        if (chessMove != null) {
+            db.collection(COLLECTION).updateOne({"game_id": game.game_id}, {"$set": {"fen": chess.fen()}}, function (err, data) {
+                //error occur on update then the move is invalid
+                if (err) {
+                    cb({
+                        valid: false
+                    });
+                }
+
+                cb({
+                    valid: true
+                });
+            });
+        } else {
+            //move is not valid
+            cb({
+                valid: false
+            });
+        }
     });
 };
 
