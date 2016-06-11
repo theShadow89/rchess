@@ -6,9 +6,8 @@ var state = {
     mode: null
 };
 
-// In the real world it will be better if the production uri comes
-// from an environment variable, instead of being hard coded.
-var PRODUCTION_URI = 'mongodb://127.0.0.1:27017/production'
+
+var PRODUCTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/rchess'
     , TEST_URI = 'mongodb://127.0.0.1:27017/test';
 
 exports.MODE_TEST = 'mode_test';
