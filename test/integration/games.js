@@ -3,15 +3,28 @@ var expect = require('chai').expect,
 var request = require('supertest');
 var app = require("../../app");
 
+var DB = require('../../db');
+
+before(function(done) {
+    //connection
+    DB.connect(DB.MODE_TEST, done);
+});
+
 describe('Game Endpoint integration test', function() {
 
     var gameId;
 
     var server;
 
-    before(function(){
+    before(function(done){
         //create a server to handler app request
         server = request(app);
+
+        //ensure that db is empty
+        DB.drop(function(err) {
+            if (err) return done(err);
+            done();
+        })
     });
 
 
