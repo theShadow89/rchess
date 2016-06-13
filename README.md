@@ -1,5 +1,15 @@
 # RChess - REST interface to play chess game
 
+##Requirements
+
+- mongodb (local or remote)
+
+##Configurations
+
+Rchess
+
+- MONGODB_URI: mongo db uri. if not specified will be used default localhost on standard port
+
 Start the server with:
 
 `node ./bin/server` or `npm start`
