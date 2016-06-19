@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 
 var games = require('./routes/games');
 
+var db = require('./db');
+
 var app = express();
 
 // view engine setup
@@ -16,6 +18,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/games', games);
+
+
+//default db mode is production
+//on development use test mode
+dbMode = db.MODE_PRODUCTION;
+if (app.get('env') === 'development') {
+  dbMode = db.MODE_TEST
+}
+
+//connect to database
+//on error abort application start
+db.connect(dbMode,function (err) {
+  if(err){
+    console.log("Impossible to connect to database: " + err);
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,31 @@
+{
+  "collections": {
+    "games": [
+      {
+        "game_id": "b21b089c-ced4-4f9d-a305-bf933965f44e",
+        "pgn": "",
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1"
+      },
+      {
+        "game_id": "7eedb296-2586-4925-b860-8c132232b8bc",
+        "pgn": "",
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+      },
+      {
+        "game_id": "1a28fe2e-7a44-4583-877a-d565644d9f83",
+        "pgn": "",
+        "fen": "3q2rk/pbpp1Npp/1p6/6b1/2P1P3/P7/1PP2PPP/R4RK1 b - - 0 2"
+      },
+      {
+        "game_id": "38f76279-caf8-4e22-8433-28bea2fb4cb2",
+        "pgn": "",
+        "fen": "rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3"
+      },
+      {
+        "game_id": "fc3d4f04-0a4e-4767-b268-0c3ad1dfbed7",
+        "pgn": "",
+        "fen": "4k3/4P3/4K3/8/8/8/8/8 b - - 0 78"
+      }
+    ]
+  }
+}
