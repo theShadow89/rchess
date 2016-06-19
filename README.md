@@ -41,7 +41,7 @@ Response
 
 Request
 
-`curl -X PUT http://localhost:3000/api/games/move/{$gameId} -d '{"move":{"from":"c2","to":"c3"}}'
+`curl -X PUT http://localhost:3000/api/games/move/{$gameId} -d '{"move":{"from":"c2","to":"c3"}}' -H "Content-Type: application/json"
 `
 
 where the data represent the move object:
