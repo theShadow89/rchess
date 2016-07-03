@@ -50,6 +50,6 @@ exports.delete = function(req,res){
 
 exports.list = function(req,res){
     GameModel.list(function (data) {
-        res.send({games:data.games})
+        res.send({games:data})
     })
 };

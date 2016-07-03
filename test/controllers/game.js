@@ -2,6 +2,8 @@ var expect = require('chai').expect;
 
 var sinon = require('sinon');
 
+var DB = require('../../db')
+
 var MockExpressRequest = require('mock-express-request');
 var MockExpressResponse = require('mock-express-response');
 
@@ -10,6 +12,10 @@ var rewire = require('rewire');
 var GameController = rewire('../../controllers/game');
 
 describe('Controller Game Tests', function() {
+
+    before(function(done) {
+        DB.connect(DB.MODE_TEST, done)
+    });
 
     describe("create a game",function () {
 
@@ -67,7 +73,7 @@ describe('Controller Game Tests', function() {
         it("should respond with array of games ids",function(done){
             var GameModel = require("../../models/game");
 
-            var list = sinon.stub(GameModel, "list").yields({games:["77cc3b6e-1ebe-4851-bc63-1a4b4ce157eb","ca84d388-1b0e-4747-996f-70d68a2040a1"]});
+            var list = sinon.stub(GameModel, "list").yields(["77cc3b6e-1ebe-4851-bc63-1a4b4ce157eb","ca84d388-1b0e-4747-996f-70d68a2040a1"]);
 
             GameController.list(request, response);
             list.restore();

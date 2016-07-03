@@ -3,70 +3,199 @@ var uuid = require('node-uuid');
 
 var Chess = require('chess.js').Chess;
 
+var COLLECTION = 'games';
 
-exports.create = function(cb){
+exports.findById = function (gameId, cb) {
+    var db = DB.getDB();
+    db.collection(COLLECTION).find({"game_id": gameId}, {limit: 1}).next(function (err, doc) {
+        if (err) {
+            cb(null, "game not found")
+        }
+
+        if (doc) {
+            cb(doc, null)
+        }else{
+            cb(null, "game not found")
+        }
+        
+    });
+};
+
+exports.create = function (cb) {
     var gameId = uuid.v4();
-    DB.games[gameId] = new Chess();
+    var db = DB.getDB();
+    var chess = new Chess();
 
-    var gameData = {
-        id: gameId
-    };
-
-    cb(gameData);
-};
-
-exports.move = function(idGame,move,cb){
-    var valid = false;
-
-    var game = DB.games[idGame];
-
-    if(game.move(move)!= null) valid = true;
-
-    cb({
-        valid: valid
+    db.collection(COLLECTION).insertOne({"game_id": gameId, "fen": chess.fen()}, function (err, res) {
+        var gameData = {
+            id: gameId
+        };
+        cb(gameData);
     });
 };
 
-exports.delete = function(idGame,cb){
-    delete DB.games[idGame];
-    cb({id: idGame});
-};
+exports.move = function (idGame, move, cb) {
+    var db = DB.getDB();
 
-exports.list = function(cb){
-    cb({games: Object.keys(DB.games)});
-};
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur move is invalid
+        if (err) {
+            cb({
+                valid: false
+            });
+        }
 
-exports.is_over = function(idGame,cb){
-    var game = DB.games[idGame];
-    cb({
-        game_over: game.game_over()
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        //make move and update game fen status if it is  valid
+        var chessMove = chess.move(move);
+        if (chessMove != null) {
+            db.collection(COLLECTION).updateOne({"game_id": game.game_id}, {"$set": {"fen": chess.fen()}}, function (err, data) {
+                //error occur on update then the move is invalid
+                if (err) {
+                    cb({
+                        valid: false
+                    });
+                }
+
+                cb({
+                    valid: true
+                });
+            });
+        } else {
+            //move is not valid
+            cb({
+                valid: false
+            });
+        }
     });
 };
 
-exports.is_draw = function(idGame,cb){
-    var game = DB.games[idGame];
-    cb({
-        draw: game.in_draw()
+exports.delete = function (idGame, cb) {
+    var db = DB.getDB();
+
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        db.collection(COLLECTION).deleteOne({"game_id": game.game_id}, function (err, data) {
+            //if error occur on delete game return no data
+            if (err) {
+                cb({});
+            }
+
+            //return id of deleted game
+            cb({id: game.game_id});
+
+        });
+    });
+
+};
+
+exports.list = function (cb) {
+    var db = DB.getDB();
+
+    db.collection(COLLECTION).find({}, {"game_id": true}).toArray(function (err, data) {
+        if (err) {
+            console.log(err);
+        }
+
+        var games = data.map(function (obj) {
+            return obj.game_id
+        });
+
+        cb(games);
+    });
+
+};
+
+exports.is_over = function (idGame, cb) {
+
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        cb({
+            game_over: chess.game_over()
+        });
     });
 };
 
-exports.is_checkmate = function(idGame,cb){
-    var game = DB.games[idGame];
-    cb({
-        checkmate: game.in_checkmate()
+exports.is_draw = function (idGame, cb) {
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        cb({
+            draw: chess.in_draw()
+        });
     });
 };
 
-exports.is_check = function(idGame,cb){
-    var game = DB.games[idGame];
-    cb({
-        check: game.in_check()
+exports.is_checkmate = function (idGame, cb) {
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        cb({
+            checkmate: chess.in_checkmate()
+        });
     });
 };
 
-exports.is_stalemate = function(idGame,cb){
-    var game = DB.games[idGame];
-    cb({
-        stalemate: game.in_stalemate()
+exports.is_check = function (idGame, cb) {
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        cb({
+            check: chess.in_check()
+        });
+    });
+};
+
+exports.is_stalemate = function (idGame, cb) {
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        cb({
+            stalemate: chess.in_stalemate()
+        });
     });
 };
