@@ -6,9 +6,10 @@
 
 ##Configurations
 
-Rchess
 
 - MONGODB_URI: mongo db uri. if not specified will be used default localhost on standard port
+
+- TOKEN : token used to authenticate request. It must be specified
 
 Start the server with:
 
@@ -20,7 +21,7 @@ Start the server with:
 
 Request
 
-`curl -X POST http://localhost:3000/api/games/create`
+`curl -X POST http://localhost:3000/api/games/create -H "x-access-token: {token}"`
 
 Response
 
@@ -31,7 +32,7 @@ Response
 
 Request
 
-`curl http://localhost:3000/api/games/`
+`curl http://localhost:3000/api/games/ -H "x-access-token: {token}"`
 
 Response
 
@@ -41,7 +42,7 @@ Response
 
 Request
 
-`curl -X PUT http://localhost:3000/api/games/move/{$gameId} -d '{"move":{"from":"c2","to":"c3"}}' -H "Content-Type: application/json"
+`curl -X PUT http://localhost:3000/api/games/move/{$gameId} -d '{"move":{"from":"c2","to":"c3"}}' -H "Content-Type: application/json" -H "x-access-token: {token}"
 `
 
 where the data represent the move object:
@@ -66,7 +67,7 @@ return true if move is valid false otherwise
 
 Request
 
-`curl http://localhost:3000/api/games/status/{gameId}`
+`curl http://localhost:3000/api/games/status/{gameId} -H "x-access-token: {token}"`
 
 Response
 
@@ -79,7 +80,7 @@ return an array with game statuses. if empty the game is running
 
 Request
 
-`curl -x DELETE http://localhost:3000/api/games/delete/{gameId}`
+`curl -x DELETE http://localhost:3000/api/games/delete/{gameId} -H "x-access-token: {token}"`
 
 Response
 

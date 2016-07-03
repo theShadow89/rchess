@@ -7,6 +7,10 @@ var games = require('./routes/games');
 
 var db = require('./db');
 
+var AuthenticatorMiddleware = require("./middleware/authenticator");
+
+var auth = new  AuthenticatorMiddleware({token:process.env.TOKEN});
+
 var app = express();
 
 // view engine setup
@@ -16,6 +20,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(auth.authenticate);
 
 app.use('/api/games', games);
 
