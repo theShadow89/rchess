@@ -114,6 +114,31 @@ exports.list = function (cb) {
 
 };
 
+exports.status = function (idGame, cb) {
+   var db = DB.getDB();
+
+    //find game
+    this.findById(idGame, function (game, err) {
+        //if error occur return no data
+        if (err) {
+            cb({});
+        }
+
+        //create a game instance from fen stores on db
+        var chess = new Chess(game.fen);
+
+        cb({
+            game_id: idGame,
+            game_over: chess.game_over(),
+            draw: chess.in_draw(),
+            checkmate: chess.in_checkmate(),
+            check: chess.in_check(),
+            stalemate: chess.in_stalemate(),
+            current_player: chess.turn()
+        });
+    });
+};
+
 exports.is_over = function (idGame, cb) {
 
     //find game

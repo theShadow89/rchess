@@ -103,6 +103,21 @@ describe('Model Game Tests', function() {
         });
     });
 
+    it('game status', function(done) {
+        var idGame = "fc3d4f04-0a4e-4767-b268-0c3ad1dfbed7";
+        Game.status(idGame,function(data){
+            expect(data).to.be.an('object');
+            expect(data).to.have.property('game_id');
+            expect(data).to.have.property('game_over');
+            expect(data).to.have.property('stalemate');
+            expect(data).to.have.property('draw');
+            expect(data).to.have.property('checkmate');
+            expect(data).to.have.property('check');
+            expect(data).to.have.property('current_player');
+            done();
+        });
+    });
+
     it('delete a game', function(done) {
         var idGame = "fc3d4f04-0a4e-4767-b268-0c3ad1dfbed7";
 
