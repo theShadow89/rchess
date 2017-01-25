@@ -65,7 +65,7 @@ describe('Model Game Tests', function() {
 
     it('game is over', function(done) {
         var idGame = "1a28fe2e-7a44-4583-877a-d565644d9f83";
-        Game.is_over(idGame,function(data){
+        Game.status(idGame,function(data){
             expect(data.game_over).to.equal(true);
             done();
         });
@@ -73,7 +73,7 @@ describe('Model Game Tests', function() {
 
     it('game is in checkmate state', function(done) {
         var idGame = "38f76279-caf8-4e22-8433-28bea2fb4cb2";
-        Game.is_checkmate(idGame,function(data){
+        Game.status(idGame,function(data){
             expect(data.checkmate).to.equal(true);
             done();
         });
@@ -81,7 +81,7 @@ describe('Model Game Tests', function() {
 
     it('game is in check state', function(done) {
         var idGame = "38f76279-caf8-4e22-8433-28bea2fb4cb2";
-        Game.is_check(idGame,function(data){
+        Game.status(idGame,function(data){
             expect(data.check).to.equal(true);
             done();
         });
@@ -89,7 +89,7 @@ describe('Model Game Tests', function() {
 
     it('game is in draw state', function(done) {
         var idGame = "fc3d4f04-0a4e-4767-b268-0c3ad1dfbed7";
-        Game.is_draw(idGame,function(data){
+        Game.status(idGame,function(data){
             expect(data.draw).to.equal(true);
             done();
         });
@@ -97,7 +97,7 @@ describe('Model Game Tests', function() {
 
     it('game is in stalemate state', function(done) {
         var idGame = "fc3d4f04-0a4e-4767-b268-0c3ad1dfbed7";
-        Game.is_stalemate(idGame,function(data){
+        Game.status(idGame,function(data){
             expect(data.stalemate).to.equal(true);
             done();
         });
