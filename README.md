@@ -71,9 +71,17 @@ Request
 
 Response
 
-`{"statuses":[]}`
+`{  
+	game_id: string,
+    game_over: boolean,
+    draw: boolean,
+    checkmate: boolean,
+    check: boolean,
+    stalemate: boolean,
+    current_player: string
+ }`
 
-return an array with game statuses. if empty the game is running
+return an JSON object that represent the state of the game.
 
 
 #### Delete a game
